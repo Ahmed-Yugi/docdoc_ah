@@ -1,18 +1,29 @@
 import 'package:docdoc/core/utils/colors_manager.dart';
+import 'package:docdoc/features/all_recommendation_doctor/presentation/screen/all_recommendation_doctor.dart';
 import 'package:docdoc/features/home/presentation/widgets/nearby_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/txt_style.dart';
+
+import '../../logic/cubit.dart';
 import '../widgets/doctor_speciality.dart';
 import '../widgets/recommendation_doctor.dart';
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   String userName;
   HomeScreen({super.key, required this.userName});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.sizeOf(context).height;
     double screenWidth = MediaQuery.sizeOf(context).width;
-    return Scaffold(
+    return BlocProvider(
+  create: (context) => HomeCubit() .. getHomeData(),
+  child: Scaffold(
       body: Padding(
         padding:  EdgeInsets.symmetric(horizontal: screenHeight * 0.03, vertical: screenHeight * 0.05),
         child: Column(
@@ -24,7 +35,7 @@ class HomeScreen extends StatelessWidget {
               Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Hi , $userName!", style: TxtStyle.size18Weight700Black),
+                    Text("Hi , ${widget.userName}!", style: TxtStyle.size18Weight700Black),
                     Text("How are you today?", style: TxtStyle.size11Weight400BlackGrey)
                   ]
               ),
@@ -51,7 +62,11 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Recommendation Doctor", style: TxtStyle.size18Weight600Black),
-                  Text("See All", style: TxtStyle.size12Weight400Primary),
+                  InkWell(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => AllRecommendationDoctor()));
+                      },
+                      child: Text("See All", style: TxtStyle.size12Weight400Primary)),
                 ]
             ),
             SizedBox(height: screenHeight * 0.02,),
@@ -59,6 +74,7 @@ class HomeScreen extends StatelessWidget {
           ]
         ),
       ),
-    );
+    ),
+);
   }
 }

@@ -14,12 +14,11 @@ class _TermsAndPrivacyState extends State<TermsAndPrivacy> {
   Widget build(BuildContext context) {
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+
       children: [
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("By  logging  in , you  agree  to  our ", style: TxtStyle.size11Weight400MoreGrey),
+            Text("By logging in , you agree to our ", style: TxtStyle.size11Weight400MoreGrey),
             InkWell(child: Text(" Terms & Conditions ", style: TxtStyle.size11Weight400Black)),
             Text(" and ", style: TxtStyle.size11Weight400MoreGrey),
           ]

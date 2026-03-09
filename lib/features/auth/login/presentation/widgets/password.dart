@@ -4,19 +4,36 @@ import '../../../../../core/utils/colors_manager.dart';
 import '../../../../../core/utils/txt_style.dart';
 
 class Password extends StatelessWidget {
-  const Password({super.key});
+  final bool value;
+  final Function(bool?) onChanged;
+
+  const Password({
+    super.key ,
+    required this.value,
+    required this.onChanged
+  });
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.sizeOf(context).height;
+
     double screenWidth = MediaQuery.sizeOf(context).width;
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(Icons.check_box_outline_blank, color: ColorsManager.moreGrey),
-        SizedBox(width: screenWidth * 0.02,),
-        Text("Remember me", style: TxtStyle.size12Weight400moreGrey),
-        Spacer(),
+        Row(
+          children: [
+            Checkbox(
+              value: value,
+              onChanged: onChanged,
+              checkColor: ColorsManager.white,
+              activeColor: ColorsManager.primary,
+
+            ),
+
+            Text("Remember me", style: TxtStyle.size12Weight400moreGrey),
+          ],
+        ),
         Text("Forgot Password?", style: TxtStyle.size12Weight400Primary),
       ],
     );

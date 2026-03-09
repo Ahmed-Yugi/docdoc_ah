@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:docdoc/core/helper/generic_helper.dart';
 import 'package:docdoc/core/utils/colors_manager.dart';
 import 'package:docdoc/core/widgets/app_button.dart';
 import 'package:docdoc/features/auth/login/presentation/widgets/password.dart';
@@ -21,15 +22,26 @@ import '../widgets/terms_and_privacy.dart';
 class LoginScreen  extends StatefulWidget {
   LoginScreen({super.key});
   @override
+
   State<LoginScreen> createState() => _LoginScreenState();
 }
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emilController = TextEditingController();
-
   TextEditingController passwordController = TextEditingController();
-
+  bool rememberMe = false;
+  @override
+  void initState() {
+    super.initState();
+    rememberMe = GenericHelper.getData("remember_me") == "true";
+    if (rememberMe) {
+      emilController.text = GenericHelper.getData("email") ?? "";
+      passwordController.text = GenericHelper.getData("password") ?? "";
+    }
+  }
   @override
   Widget build(BuildContext context) {
+
+
     double screenHeight = MediaQuery.sizeOf(context).height;
     double screenWidth = MediaQuery.sizeOf(context).width;
     return BlocProvider(
@@ -62,11 +74,37 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: screenHeight * 0.009,),
                     AppTxtField(hintTxt:"Email", textEditingController: emilController),
                     AppTxtField(hintTxt: "Password", textEditingController: passwordController),
-                    Password(),
+                    Password(
+                        value: rememberMe,
+                        onChanged: (value) {
+                          setState(() {
+                            rememberMe = value!;
+                          });
+                          if (!rememberMe) {
+                            GenericHelper.removeData("email");
+                            GenericHelper.removeData("password");
+                            GenericHelper.saveData(key: "remember_me", value: "false");
+                          } else {
+                            GenericHelper.saveData(key: "remember_me", value: "true");
+                          }
+                        }),
                     SizedBox(height: screenHeight * 0.005,),
                     Center(child:
                     state is LoginLoadingState ? CircularProgressIndicator() :
-                    AppButton(buttonTxt: "Login", function: (){
+                    AppButton(
+                        buttonTxt: "Login",
+                        function: (){
+                          if(rememberMe){
+                            GenericHelper.saveData(
+                                key: "email",
+                                value: emilController.text
+                            );
+                            GenericHelper.saveData(
+                                key: "password",
+                                value: passwordController.text
+                            );
+                            GenericHelper.saveData(key: "remember_me", value: "true");
+                          }
                       context.read<LoginCubit>().login(
                           UserLoginModel(
                               email: emilController.text,

@@ -90,4 +90,19 @@ class TxtStyle {
       fontWeight: FontWeight.w500,
       color: ColorsManager.grey
   );
+  static TextStyle size14Weight700Primary= TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w700,
+      color: ColorsManager.primary
+  );
+  static TextStyle size14Weight700Grey= TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w700,
+      color: ColorsManager.grey
+  );
+  static TextStyle size18Weight700White= TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.w700,
+      color: ColorsManager.white
+  );
 }

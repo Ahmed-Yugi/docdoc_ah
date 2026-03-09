@@ -31,7 +31,7 @@ class AppButton extends StatelessWidget {
         child: Center(
           child: Text(
             buttonTxt,
-            style: TxtStyle.size16Weight600White,
+            style: TxtStyle.size18Weight700White,
           ),
         ),
       ),
